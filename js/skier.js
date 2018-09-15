@@ -16,6 +16,11 @@ ski.skier.assets.available = {
     'skierDown' : 'img/skier_down.png',
     'skierRightDown' : 'img/skier_right_down.png',
     'skierRight' : 'img/skier_right.png',
+    'skierJump1' : 'img/skier_jump_1.png',
+    'skierJump2' : 'img/skier_jump_2.png',
+    'skierJump3' : 'img/skier_jump_3.png',
+    'skierJump4' : 'img/skier_jump_4.png',
+    'skierJump5' : 'img/skier_jump_5.png',
     'tree' : 'img/tree_1.png',
     'treeCluster' : 'img/tree_cluster.png',
     'rock1' : 'img/rock_1.png',
@@ -23,6 +28,8 @@ ski.skier.assets.available = {
 };
 
 ski.skier.assets.loaded = {};
+
+ski.skier.jumpingDirections = [6, 7, 8, 9, 10];
 
 ski.skier.move = function() {
     switch(ski.skier.direction) {
@@ -42,6 +49,19 @@ ski.skier.move = function() {
             ski.skier.mapY += ski.skier.speed / 1.4142;
 
             ski.obstacle.placeNew(ski.skier.direction);
+            break;
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            ski.skier.mapY += ski.skier.speed;
+            ski.obstacle.placeNew(ski.skier.direction);
+            if(ski.skier.direction === 10){
+              ski.skier.direction = 3;
+            } else {
+              ski.skier.direction++;
+            }
             break;
     }
 };
@@ -90,6 +110,21 @@ ski.skier.getAsset = function() {
             break;
         case 5:
             skierAssetName = 'skierRight';
+            break;
+        case 6:
+            skierAssetName = 'skierJump1';
+            break;
+        case 7:
+            skierAssetName = 'skierJump2';
+            break;
+        case 8:
+            skierAssetName = 'skierJump3';
+            break;
+        case 9:
+            skierAssetName = 'skierJump4';
+            break;
+        case 10:
+            skierAssetName = 'skierJump5';
             break;
     }
 

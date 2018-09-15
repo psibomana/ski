@@ -14,7 +14,7 @@ $(document).ready(function() {
             width: ski.game.width + 'px',
             height: ski.game.height + 'px'
         });
-        
+
     $('body').append(ski.game.canvas);
 
     ski.game.ctx = ski.game.canvas[0].getContext('2d');
@@ -55,6 +55,8 @@ $(document).ready(function() {
                     }
                     else if(ski.skier.direction !== 0) {
                         ski.skier.direction--;
+                    } else {
+                        ski.skier.direction = 1;
                     }
                     event.preventDefault();
                     break;
@@ -72,7 +74,11 @@ $(document).ready(function() {
                     if(ski.skier.direction === 1 || ski.skier.direction === 5) {
                         ski.skier.mapY -= ski.skier.speed;
                         ski.obstacle.placeNew(6);
+                    } else {
+                        ski.skier.direction = 6;
+                        ski.obstacle.placeNew(6);
                     }
+
                     event.preventDefault();
                     break;
                 case 40: // down

@@ -141,7 +141,8 @@ ski.obstacle.hasHitObstacle = function() {
             bottom: obstacle.y + obstacleImage.height
         };
 
-        return ski.obstacle.intersectRect(skierRect, obstacleRect);
+        return (ski.obstacle.intersectRect(skierRect, obstacleRect)
+                && !(ski.skier.dirrection in ski.skier.jumpingDirections));
     });
 
     if(collision) {
