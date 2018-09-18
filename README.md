@@ -41,7 +41,7 @@ The following should be installed in your machine:
 
 
 ### Issues
-Issues are always very welcome. Please be sure to follow the [issue template](https://github.com/psibomana/ski/issues/new).
+Issues are always very welcome. Please be sure to follow the [issue template](https://github.com/psibomana/ski/issues/new/choose).
 
 
 ## Features
