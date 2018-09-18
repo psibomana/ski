@@ -4,17 +4,26 @@ Master Branch :
 
 ## Description
 This project has been setup as a Code Challenge for Ceros - Ski Edition.
-The initial project required some bug fix and addition for new features which are detailed in the [Features](#feature) section.
+The initial project required some bug fix and addition for new features which are detailed in the [Features](#features) section.
 
 ## Table of content
-
+- [Description](#description)
+- [Technologies Used](#technologies-used)
+- [Setup](#setup)
+  - [Prerequisites](#prerequisites)
+  - [Instructions](#instructions)
+  - [Issues](#issues)
+- [Features](#features)
+- [Demo](#demo)
+- [Licence](#licence)
+- [Author](#author)
 
 ## Technologies Used
 - Javascript
 - Jest
 
 
-## How To Install And Run The Application
+## Setup
 
 ### Prerequisites
 The following should be installed in your machine:
