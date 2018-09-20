@@ -4,7 +4,13 @@
     "description": "",
     "main": "web.js",
     "scripts": {
-        "start": "node web.js"
+        "start": "node ./src/web.js",
+        "test": "jest --coverage"
+    },
+    "jest": {
+        "setupFiles": [
+            "./test-env.js"
+        ]
     },
     "author": "dan.wash@ceros.com",
     "license": "",
@@ -12,6 +18,13 @@
         "node": "8.4.0"
     },
     "dependencies": {
-        "http-server": "^0.10.0"
+        "canvas": "^1.6.12",
+        "http-server": "^0.10.0",
+        "jquery": "^3.2.1",
+        "lodash": "^4.17.4"
+    },
+    "devDependencies": {
+        "jasmine": "^3.2.0",
+        "jest": "^23.6.0"
     }
 }

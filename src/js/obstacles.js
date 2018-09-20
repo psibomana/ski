@@ -9,6 +9,20 @@ ski.obstacle.types = [
     'rock2'
 ];
 
+ski.messageCounter= (function(){
+
+    var privateState = 0;
+
+    var incrementCount = function () {
+        privateState += 1;
+    };
+
+    return function (message) {
+        incrementCount();
+        //TODO something with the message!
+    }
+})();
+
 ski.obstacle.obstacles = [];
 
 ski.obstacle.draw = function() {
@@ -83,6 +97,7 @@ ski.obstacle.placeNew = function(direction) {
             break;
     }
 };
+
 
 ski.obstacle.placeRandom = function(minX, maxX, minY, maxY) {
     var obstacleIndex = _.random(0, ski.obstacle.types.length - 1);

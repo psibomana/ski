@@ -10,21 +10,21 @@ ski.skier.speed = 8;
 ski.skier.assets = ski.skier.assets || {};
 
 ski.skier.assets.available = {
-    'skierCrash' : 'img/skier_crash.png',
-    'skierLeft' : 'img/skier_left.png',
-    'skierLeftDown' : 'img/skier_left_down.png',
-    'skierDown' : 'img/skier_down.png',
-    'skierRightDown' : 'img/skier_right_down.png',
-    'skierRight' : 'img/skier_right.png',
-    'skierJump1' : 'img/skier_jump_1.png',
-    'skierJump2' : 'img/skier_jump_2.png',
-    'skierJump3' : 'img/skier_jump_3.png',
-    'skierJump4' : 'img/skier_jump_4.png',
-    'skierJump5' : 'img/skier_jump_5.png',
-    'tree' : 'img/tree_1.png',
-    'treeCluster' : 'img/tree_cluster.png',
-    'rock1' : 'img/rock_1.png',
-    'rock2' : 'img/rock_2.png'
+    'skierCrash' : './src/img/skier_crash.png',
+    'skierLeft' : './src/img/skier_left.png',
+    'skierLeftDown' : './src/img/skier_left_down.png',
+    'skierDown' : './src/img/skier_down.png',
+    'skierRightDown' : './src/img/skier_right_down.png',
+    'skierRight' : './src/img/skier_right.png',
+    'skierJump1' : './src/img/skier_jump_1.png',
+    'skierJump2' : './src/img/skier_jump_2.png',
+    'skierJump3' : './src/img/skier_jump_3.png',
+    'skierJump4' : './src/img/skier_jump_4.png',
+    'skierJump5' : './src/img/skier_jump_5.png',
+    'tree' : './src/img/tree_1.png',
+    'treeCluster' : './src/img/tree_cluster.png',
+    'rock1' : './src/img/rock_1.png',
+    'rock2' : './src/img/rock_2.png'
 };
 
 ski.skier.assets.loaded = {};
