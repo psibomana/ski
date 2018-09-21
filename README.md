@@ -38,7 +38,7 @@ The following should be installed in your machine:
 * Use `$ npm install` to install all the dependencies of the project.
 * Use `$ npm start` to start the application.
 * Use `$ npm test` to executes the tests of the application.
-* Use `$ npm run test-spec & npm run coverage` to run tests coverage.
+* Use `$ npm run test-spec && npm run coverage` to run tests coverage.
 
 
 ### Issues
