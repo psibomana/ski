@@ -20,7 +20,7 @@ The initial project required some bug fix and addition for new features which ar
 
 ## Technologies Used
 - Javascript
-- Jest
+- Mocha & Chai
 
 
 ## Setup
@@ -38,6 +38,7 @@ The following should be installed in your machine:
 * Use `$ npm install` to install all the dependencies of the project.
 * Use `$ npm start` to start the application.
 * Use `$ npm test` to executes the tests of the application.
+* Use `$ npm run test-spec & npm run coverage` to run tests coverage.
 
 
 ### Issues

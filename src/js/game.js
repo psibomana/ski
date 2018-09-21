@@ -1,6 +1,7 @@
 var ski = ski || {};
 
 ski.game = ski.game || {};
+
 ski.game.width = window.innerWidth;
 ski.game.height = window.innerHeight;
 
@@ -12,7 +13,6 @@ ski.game.canvas = $('<canvas></canvas>')
         height: ski.game.height + 'px'
     });
 
-
 ski.game.ctx = ski.game.canvas[0].getContext('2d');
 
 ski.game.canvas.clear = function() {
@@ -23,16 +23,15 @@ ski.game.loop = function() {
 
     ski.game.ctx.save();
 
-    // Retina support
     ski.game.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
     ski.game.canvas.clear();
 
-    ski.skier.move();
+    ski.skier.move(ski.obstacle, ski.game);
 
     ski.obstacle.hasHitObstacle();
 
-    ski.skier.draw();
+    ski.skier.draw(ski.game);
 
     ski.obstacle.draw();
 
@@ -85,11 +84,17 @@ ski.game.keyHandler = function() {
     });
 };
 
-ski.game.init = function() {
+ski.game.init = function(skier, obstacle) {
+    ski.skier = skier;
+    ski.obstacle = obstacle;
     ski.game.keyHandler();
     ski.skier.assets.load().then(function() {
-        ski.obstacle.placeInitial();
+        ski.obstacle.placeInitial(ski.game.width, ski.game.height, ski.skier.assets.loaded);
 
         requestAnimationFrame(ski.game.loop);
     });
 };
+
+try {
+   module.exports = exports = ski;
+} catch (e) {}

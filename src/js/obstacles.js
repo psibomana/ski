@@ -9,20 +9,6 @@ ski.obstacle.types = [
     'rock2'
 ];
 
-ski.messageCounter= (function(){
-
-    var privateState = 0;
-
-    var incrementCount = function () {
-        privateState += 1;
-    };
-
-    return function (message) {
-        incrementCount();
-        //TODO something with the message!
-    }
-})();
-
 ski.obstacle.obstacles = [];
 
 ski.obstacle.draw = function() {
@@ -45,34 +31,34 @@ ski.obstacle.draw = function() {
     ski.obstacle.obstacles = newObstacles;
 };
 
-ski.obstacle.placeInitial = function() {
-    var numberObstacles = Math.ceil(_.random(5, 7) * (ski.game.width / 800) * (ski.game.height / 500));
+ski.obstacle.placeInitial = function(width, height, loadedAssets) {
+    var numberObstacles = Math.ceil(_.random(5, 7) * (width / 800) * (height / 500));
 
     var minX = -50;
-    var maxX = ski.game.width + 50;
-    var minY = ski.game.height / 2 + 100;
-    var maxY = ski.game.height + 50;
+    var maxX = width + 50;
+    var minY = height / 2 + 100;
+    var maxY = height + 50;
 
     for(var i = 0; i < numberObstacles; i++) {
         ski.obstacle.placeRandom(minX, maxX, minY, maxY);
     }
 
     ski.obstacle.obstacles = _.sortBy(ski.obstacle.obstacles, function(obstacle) {
-        var obstacleImage = ski.skier.assets.loaded[obstacle.type];
+        var obstacleImage = loadedAssets[obstacle.type];
         return obstacle.y + obstacleImage.height;
     });
 };
 
-ski.obstacle.placeNew = function(direction) {
+ski.obstacle.placeNew = function(direction, mapX, mapY, width, height) {
     var shouldPlaceObstacle = _.random(1, 8);
     if(shouldPlaceObstacle !== 8) {
         return;
     }
 
-    var leftEdge = ski.skier.mapX;
-    var rightEdge = ski.skier.mapX + ski.game.width;
-    var topEdge = ski.skier.mapY;
-    var bottomEdge = ski.skier.mapY + ski.game.height;
+    var leftEdge = mapX;
+    var rightEdge = mapX + width;
+    var topEdge = mapY;
+    var bottomEdge = mapY + height;
 
     switch(direction) {
         case 1: // left
@@ -164,3 +150,7 @@ ski.obstacle.hasHitObstacle = function() {
         ski.skier.direction = 0;
     }
 };
+
+try {
+   module.exports = exports = ski;
+} catch (e) {}
