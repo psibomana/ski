@@ -27,7 +27,8 @@
     "author": "dan.wash@ceros.com",
     "license": "",
     "engines": {
-        "node": "8.4.0"
+        "node": ">=8.6",
+        "yarn": ">=1.6"
     },
     "dependencies": {
         "canvas": "^1.6.12",

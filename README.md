@@ -35,10 +35,10 @@ The following should be installed in your machine:
 
 * Clone this Repo with `$ git clone https://github.com/psibomana/ski.git`
 * Change into the directory of the project
-* Use `$ npm install` to install all the dependencies of the project.
-* Use `$ npm start` to start the application.
-* Use `$ npm test` to executes the tests of the application.
-* Use `$ npm run test-spec && npm run coverage` to run tests coverage.
+* Use `$ yarn install` to install all the dependencies of the project.
+* Use `$ yarn start` to start the application.
+* Use `$ yarn test` to executes the tests of the application.
+* Use `$ yarn test-spec && yarn coverage` to run tests coverage.
 
 
 ### Issues
