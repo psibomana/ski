@@ -34,7 +34,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: npm test
+      - run: npm run test-spec
+      - run: npm run coverage
 deployment:
   staging:
     branch: master
