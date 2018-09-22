@@ -1,15 +1,13 @@
-var ski = ski || {};
+let skier =  {};
 
-ski.skier = ski.skier || {};
+skier.direction = 5;
+skier.mapX = 0;
+skier.mapY = 0;
+skier.speed = 8;
 
-ski.skier.direction = 5;
-ski.skier.mapX = 0;
-ski.skier.mapY = 0;
-ski.skier.speed = 8;
+skier.assets = skier.assets || {};
 
-ski.skier.assets = ski.skier.assets || {};
-
-ski.skier.assets.available = {
+skier.assets.available = {
   'skierCrash': './src/img/skier_crash.png',
   'skierLeft': './src/img/skier_left.png',
   'skierLeftDown': './src/img/skier_left_down.png',
@@ -27,23 +25,23 @@ ski.skier.assets.available = {
   'rock2': './src/img/rock_2.png'
 };
 
-ski.skier.assets.loaded = {};
+skier.assets.loaded = {};
 
-ski.skier.jumpingDirections = [6, 7, 8, 9, 10];
+skier.jumpingDirections = [6, 7, 8, 9, 10];
 
-ski.skier.assets.load = function () {
-  var assetPromises = [];
+skier.assets.load = function () {
+  let assetPromises = [];
 
-  _.each(ski.skier.assets.available, function (asset, assetName) {
-    var assetImage = new Image();
-    var assetDeferred = new $.Deferred();
+  _.each(skier.assets.available, function (asset, assetName) {
+    const assetImage = new Image();
+    const assetDeferred = new $.Deferred();
 
     assetImage.onload = function () {
       assetImage.width /= 2;
       assetImage.height /= 2;
 
-      ski.skier.assets.loaded[assetName] = assetImage;
-      assetDeferred.resolve(ski.skier.assets.loaded);
+      skier.assets.loaded[assetName] = assetImage;
+      assetDeferred.resolve(skier.assets.loaded);
     };
     assetImage.src = asset;
 
@@ -53,9 +51,9 @@ ski.skier.assets.load = function () {
 };
 
 
-ski.skier.getAsset = function () {
-  var skierAssetName;
-  switch (ski.skier.direction) {
+skier.getAsset = function () {
+  let skierAssetName;
+  switch (skier.direction) {
     case 0:
       skierAssetName = 'skierCrash';
       break;
@@ -94,54 +92,54 @@ ski.skier.getAsset = function () {
   return skierAssetName;
 };
 
-ski.skier.move = function (obstacle, game) {
-  switch (ski.skier.direction) {
+skier.move = function (obstacle, game) {
+  switch (skier.direction) {
     case 2:
-      ski.skier.mapX -= Math.round(ski.skier.speed / 1.4142);
-      ski.skier.mapY += Math.round(ski.skier.speed / 1.4142);
+      skier.mapX -= Math.round(skier.speed / 1.4142);
+      skier.mapY += Math.round(skier.speed / 1.4142);
 
-      obstacle.placeNew(ski.skier.direction, ski.skier.mapX, ski.skier.mapY, game.width, game.height);
+      obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       break;
     case 3:
-      ski.skier.mapY += ski.skier.speed;
+      skier.mapY += skier.speed;
 
-      obstacle.placeNew(ski.skier.direction, ski.skier.mapX, ski.skier.mapY, game.width, game.height);
+      obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       break;
     case 4:
-      ski.skier.mapX += ski.skier.speed / 1.4142;
-      ski.skier.mapY += ski.skier.speed / 1.4142;
+      skier.mapX += skier.speed / 1.4142;
+      skier.mapY += skier.speed / 1.4142;
 
-      obstacle.placeNew(ski.skier.direction, ski.skier.mapX, ski.skier.mapY, game.width, game.height);
+      obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       break;
     case 6:
     case 7:
     case 8:
     case 9:
     case 10:
-      ski.skier.mapY += ski.skier.speed;
-      obstacle.placeNew(ski.skier.direction, ski.skier.mapX, ski.skier.mapY, game.width, game.height);
-      if (ski.skier.direction === 10) {
-        ski.skier.direction = 3;
+      skier.mapY += skier.speed;
+      obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
+      if (skier.direction === 10) {
+        skier.direction = 3;
       } else {
-        ski.skier.direction++;
+        skier.direction++;
       }
       break;
   }
 };
 
 
-ski.skier.draw = function (game) {
+skier.draw = function (game) {
 
-  var skierAssetName = ski.skier.getAsset();
-  var skierImage = ski.skier.assets.loaded[skierAssetName];
-  var x = (game.width - skierImage.width) / 2;
-  var y = (game.height - skierImage.height) / 2;
+  const skierAssetName = skier.getAsset();
+  const skierImage = skier.assets.loaded[skierAssetName];
+  const x = (game.width - skierImage.width) / 2;
+  const y = (game.height - skierImage.height) / 2;
 
   game.ctx.drawImage(skierImage, x, y, skierImage.width, skierImage.height);
 };
 
 
-ski.skier.intersectRect = function (r1, r2) {
+skier.intersectRect = function (r1, r2) {
   return !(r2.left > r1.right ||
     r2.right < r1.left ||
     r2.top > r1.bottom ||
@@ -149,34 +147,34 @@ ski.skier.intersectRect = function (r1, r2) {
 };
 
 
-ski.skier.hasHitObstacle = function (game, obstacles) {
-  var skierAssetName = ski.skier.getAsset();
-  var skierImage = ski.skier.assets.loaded[skierAssetName];
-  var skierRect = {
-    left: ski.skier.mapX + game.width / 2,
-    right: ski.skier.mapX + skierImage.width + game.width / 2,
-    top: ski.skier.mapY + skierImage.height - 5 + game.height / 2,
-    bottom: ski.skier.mapY + skierImage.height + game.height / 2
+skier.hasHitObstacle = function (game, obstacles) {
+  const skierAssetName = skier.getAsset();
+  const skierImage = skier.assets.loaded[skierAssetName];
+  const skierRect = {
+    left: skier.mapX + game.width / 2,
+    right: skier.mapX + skierImage.width + game.width / 2,
+    top: skier.mapY + skierImage.height - 5 + game.height / 2,
+    bottom: skier.mapY + skierImage.height + game.height / 2
   };
 
-  var collision = _.find(obstacles, function (obstacle) {
-    var obstacleImage = ski.skier.assets.loaded[obstacle.type];
-    var obstacleRect = {
+  const collision = _.find(obstacles, function (obstacle) {
+    const obstacleImage = skier.assets.loaded[obstacle.type];
+    const obstacleRect = {
       left: obstacle.x,
       right: obstacle.x + obstacleImage.width,
       top: obstacle.y + obstacleImage.height - 5,
       bottom: obstacle.y + obstacleImage.height
     };
 
-    return (ski.skier.intersectRect(skierRect, obstacleRect)
-      && !(ski.skier.dirrection in ski.skier.jumpingDirections));
+    return (skier.intersectRect(skierRect, obstacleRect)
+      && !(skier.dirrection in skier.jumpingDirections));
   });
 
   if (collision) {
-    ski.skier.direction = 0;
+    skier.direction = 0;
   }
 };
 
 try {
-  module.exports = exports = ski;
+  module.exports = exports = skier;
 } catch (e) { }

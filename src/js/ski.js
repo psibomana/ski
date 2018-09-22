@@ -2,9 +2,9 @@ var ski = ski || {};
 
 try {
 
-  var { skier } = require('./skier');
-  var { obstacle } = require('./obstacles');
-  var { game } = require('./game');
+  const skier  = require('./skier');
+  const obstacle = require('./obstacles');
+  const game = require('./game');
 
   ski.skier = skier;
   ski.obstacle = obstacle;
@@ -12,9 +12,9 @@ try {
 
 } catch(e) {
 
-  ski.skier = ski.skier;
-  ski.obstacle = ski.obstacle;
-  ski.game = ski.game;
+  ski.skier = skier;
+  ski.obstacle = obstacle;
+  ski.game = game;
 
 }
 

@@ -1,96 +1,101 @@
-var ski = ski || {};
+let game =  {};
 
-ski.game = ski.game || {};
+try {
+  obstacle = require('./obstacles') || {};
+  skier = require('./skier') || {};
+} catch (e) {
+  obstacle = obstacle || {};
+  skier = skier || {};
+}
 
-ski.game.width = window.innerWidth;
-ski.game.height = window.innerHeight;
+game.width = window.innerWidth;
+game.height = window.innerHeight;
 
-ski.game.canvas = $('<canvas></canvas>')
-  .attr('width', ski.game.width * window.devicePixelRatio)
-  .attr('height', ski.game.height * window.devicePixelRatio)
+game.canvas = $('<canvas></canvas>')
+  .attr('width', game.width * window.devicePixelRatio)
+  .attr('height', game.height * window.devicePixelRatio)
   .css({
-    width: ski.game.width + 'px',
-    height: ski.game.height + 'px'
+    width: game.width + 'px',
+    height: game.height + 'px'
   });
 
-ski.game.ctx = ski.game.canvas[0].getContext('2d');
+game.ctx = game.canvas[0].getContext('2d');
 
-ski.game.canvas.clear = function () {
-  ski.game.ctx.clearRect(0, 0, ski.game.width, ski.game.height);
+game.canvas.clear = function () {
+  game.ctx.clearRect(0, 0, game.width, game.height);
 };
 
-ski.game.loop = function () {
+game.loop = function () {
 
-  ski.game.ctx.save();
+  game.ctx.save();
 
-  ski.game.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  game.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-  ski.game.canvas.clear();
+  game.canvas.clear();
 
-  ski.skier.move(ski.obstacle, ski.game);
+  skier.move(obstacle, game);
 
-  ski.skier.hasHitObstacle(ski.game, ski.obstacle.obstacles);
+  skier.hasHitObstacle(game, obstacle.obstacles);
 
-  ski.skier.draw(ski.game);
+  skier.draw(game);
 
-  ski.obstacle.draw();
+  obstacle.draw(game, skier);
 
-  ski.game.ctx.restore();
+  game.ctx.restore();
 
-  window.requestAnimationFrame(ski.game.loop);
+  window.requestAnimationFrame(game.loop);
 };
 
-ski.game.keyHandler = function () {
+game.keyHandler = function () {
+
   $(window).keydown(function (event) {
     switch (event.which) {
       case 37: // left
-        if (ski.skier.direction === 1) {
-          ski.skier.mapX -= ski.skier.speed;
-          ski.obstacle.placeNew(ski.skier.direction);
+        if (skier.direction === 1) {
+          skier.mapX -= skier.speed;
+          obstacle.placeNew(skier.direction);
         }
-        else if (ski.skier.direction !== 0) {
-          ski.skier.direction--;
+        else if (skier.direction !== 0) {
+          skier.direction--;
         } else {
-          ski.skier.direction = 1;
+          skier.direction = 1;
         }
         event.preventDefault();
         break;
       case 39: // right
-        if (ski.skier.direction === 5) {
-          ski.skier.mapX += ski.skier.speed;
-          ski.obstacle.placeNew(ski.skier.direction);
+        if (skier.direction === 5) {
+          skier.mapX += skier.speed;
+          obstacle.placeNew(skier.direction);
         }
         else {
-          ski.skier.direction++;
+          skier.direction++;
         }
         event.preventDefault();
         break;
       case 38: // up
-        if (ski.skier.direction === 1 || ski.skier.direction === 5) {
-          ski.skier.mapY -= ski.skier.speed;
-          ski.obstacle.placeNew(6);
+        if (skier.direction === 1 || skier.direction === 5) {
+          skier.mapY -= skier.speed;
+          obstacle.placeNew(6);
         } else {
-          ski.skier.direction = 6;
-          ski.obstacle.placeNew(6);
+          skier.direction = 6;
+          obstacle.placeNew(6);
         }
 
         event.preventDefault();
         break;
       case 40: // down
-        ski.skier.direction = 3;
+        skier.direction = 3;
         event.preventDefault();
         break;
     }
   });
 };
 
-ski.game.init = function (skier, obstacle) {
-  ski.skier = skier;
-  ski.obstacle = obstacle;
-  ski.game.keyHandler();
-  ski.skier.assets.load().then(function () {
-    ski.obstacle.placeInitial(ski.game.width, ski.game.height, ski.skier.assets.loaded);
-    window.requestAnimationFrame(ski.game.loop);
+game.init = function () {
+  game.keyHandler();
+  skier.assets.load().then(function () {
+    obstacle.placeInitial(game.width, game.height, skier.assets.loaded);
+    window.requestAnimationFrame(game.loop);
   });
 };
 
@@ -98,5 +103,5 @@ ski.game.init = function (skier, obstacle) {
 * Using try catch since the browser doesn't recognize `module`
 */
 try {
-  module.exports = exports = ski;
+  module.exports = exports = game;
 } catch (e) { }

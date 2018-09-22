@@ -1,7 +1,4 @@
-const { expect } = require('../setup');
-const { obstacle } = require('../../src/js/obstacles');
-const { game } = require('../../src/js/game');
-const { skier } = require('../../src/js/skier');
+const { expect, obstacle, game, skier } = require('../setup');
 
 describe('obstacles', function () {
   it('should return at least one obstacle after placing randoms', function () {

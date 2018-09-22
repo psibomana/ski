@@ -1,8 +1,4 @@
-const { expect, MockBrowser } = require('../setup');
-let { skier } = require('../../src/js/skier');
-let { obstacle } = require('../../src/js/obstacles');
-let { game } = require('../../src/js/game');
-
+const { expect, MockBrowser, skier, obstacle, game } = require('../setup');
 
 describe('skier', function () {
   it('should return a string as asset name', function () {
