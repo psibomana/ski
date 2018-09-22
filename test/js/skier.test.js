@@ -1,35 +1,62 @@
-const { assert, expect, should } = require('chai');
-var { skier } = require('../../src/js/skier');
-var { obstacle } = require('../../src/js/obstacles');
-var { game } = require('../../src/js/game');
+const { expect, MockBrowser } = require('../setup');
+let { skier } = require('../../src/js/skier');
+let { obstacle } = require('../../src/js/obstacles');
+let { game } = require('../../src/js/game');
 
-it('should return a string as asset name', function(){
-  expect(skier.getAsset()).to.be.a('string');
-});
 
-it('should return a different position', function(){
-  var initialMapX = skier.mapX;
-  var initialMapY = skier.mapY;
-  var finalMapX = finalMapY = 0;
+describe('skier', function () {
+  it('should return a string as asset name', function () {
+    expect(skier.getAsset()).to.be.a('string');
+  });
 
-  // Set random direction and move
-  skier.direction = Math.floor(Math.random() * 3) + 1;
-  skier.move(obstacle, game);
+  it('should return a different position', function () {
+    const initialMapX = skier.mapX;
+    const initialMapY = skier.mapY;
+    let finalMapX = finalMapY = 0;
 
-  // Set random direction and move
-  skier.direction = Math.floor(Math.random() * 3) + 1;
-  skier.move(obstacle, game);
+    skier.direction = Math.floor(Math.random() * 3) + 1;
+    skier.move(obstacle, game);
+    skier.direction = Math.floor(Math.random() * 3) + 1;
+    skier.move(obstacle, game);
+    skier.direction = Math.floor(Math.random() * 3) + 1;
+    skier.move(obstacle, game);
 
-  // Set random direction and move
-  skier.direction = Math.floor(Math.random() * 3) + 1;
-  skier.move(obstacle, game);
+    setTimeout(function () {
+      finalMapX = skier.mapX;
+      finalMapY = skier.mapY;
 
-  // Wait for 3sec for the skier to move and get final position
-  setTimeout(function(){
-    finalMapX= skier.mapX;
-    finalMapY = skier.mapY;
+      expect(initialMapX).to.not.eql(finalMapX);
+      expect(initialMapY).to.not.eql(finalMapY);
+    }, 3000);
+  });
 
-    expect(initialMapX).to.not.eql(finalMapX);
-    expect(initialMapY).to.not.eql(finalMapY);
-  }, 3000);
+  it('should return an non empty loaded obstacles object', function() {
+    skier.assets.load().then(function () {
+      obstacle.placeInitial(game.width, game.height, skier.assets.loaded);
+    }).catch(function(err) {
+      console.log(err);
+    });
+
+    expect(skier.assets.loaded).to.be.an('object');
+
+  });
+
+  it('should return true if an obstacle has been intersected', function () {
+    const posObstacle = {
+      left: 55,
+      right: 56,
+      top: 49,
+      bottom: 86
+    };
+    const posSkier = {
+      left: 40,
+      right: 60,
+      top: 15,
+      bottom: 63
+    };
+
+    expect(skier.intersectRect(posObstacle, posSkier)).to.be.true;
+  });
+
+
 });

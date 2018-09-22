@@ -1,5 +1,13 @@
-var $ = require('jquery');
-var _ = require('lodash');
+const chai = require('chai');
+const dirtyChai = require('dirty-chai');
+const MockBrowser = require('mock-browser').mocks.MockBrowser;
 
-global.$ = global.jQuery = $;
-global._ = global.lodash = _;
+chai.use(dirtyChai);
+
+const { expect } = chai;
+
+
+module.exports = {
+  expect,
+  MockBrowser
+};

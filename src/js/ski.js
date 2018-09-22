@@ -19,10 +19,8 @@ try {
 }
 
 ski.onReady = function() {
-
-    $('body').append(ski.game.canvas);
-    ski.game.init(ski.skier, ski.obstacle);
-
+  $('body').append(ski.game.canvas);
+  ski.game.init(ski.skier, ski.obstacle);
 }
 
 $(document).ready(ski.onReady);
