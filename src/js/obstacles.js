@@ -13,7 +13,7 @@ obstacle.draw = function (game, skier) {
   let newObstacles = [];
 
   _.each(obstacle.obstacles, function (obstacle) {
-    const obstacleImage = skier.assets.loaded[obstacle.type];
+    const obstacleImage = game.assets.loaded[obstacle.type];
     const x = obstacle.x - skier.mapX - obstacleImage.width / 2;
     const y = obstacle.y - skier.mapY - obstacleImage.height / 2;
 
@@ -22,10 +22,8 @@ obstacle.draw = function (game, skier) {
     }
 
     game.ctx.drawImage(obstacleImage, x, y, obstacleImage.width, obstacleImage.height);
-
     newObstacles.push(obstacle);
   });
-
   obstacle.obstacles = newObstacles;
 };
 
@@ -114,6 +112,5 @@ obstacle.calculateOpenPosition = function (minX, maxX, minY, maxY) {
   }
 };
 
-try {
-  module.exports = exports = obstacle;
-} catch (e) { }
+export default obstacle;
+

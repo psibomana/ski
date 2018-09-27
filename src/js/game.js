@@ -1,15 +1,71 @@
+import skier from './skier';
+import obstacle from './obstacles';
+import $ from 'jquery';
+import _ from 'lodash';
+
+import skier_crash from '../img/skier_crash.png';
+import skier_left from '../img/skier_left.png';
+import skier_left_down from '../img/skier_left_down.png';
+import skier_down from '../img/skier_down.png';
+import skier_right_down from '../img/skier_right_down.png';
+import skier_right from '../img/skier_right.png';
+import skier_jump_1 from '../img/skier_jump_1.png';
+import skier_jump_2 from '../img/skier_jump_2.png';
+import skier_jump_3 from '../img/skier_jump_3.png';
+import skier_jump_4 from '../img/skier_jump_4.png';
+import skier_jump_5 from '../img/skier_jump_5.png';
+import tree from '../img/tree_1.png';
+import tree_cluster from '../img/tree_cluster.png';
+import rock_1 from '../img/rock_1.png';
+import rock_2 from '../img/rock_2.png';
+
 let game =  {};
 
-try {
-  obstacle = require('./obstacles') || {};
-  skier = require('./skier') || {};
-} catch (e) {
-  obstacle = obstacle || {};
-  skier = skier || {};
-}
+game.assets = game.assets || {};
+
+game.assets.available = {
+  'skierCrash': skier_crash,
+  'skierLeft': skier_left,
+  'skierLeftDown': skier_left_down,
+  'skierDown': skier_down,
+  'skierRightDown': skier_right_down,
+  'skierRight': skier_right,
+  'skierJump1': skier_jump_1,
+  'skierJump2': skier_jump_2,
+  'skierJump3': skier_jump_3,
+  'skierJump4': skier_jump_4,
+  'skierJump5': skier_jump_5,
+  'tree': tree,
+  'treeCluster': tree_cluster,
+  'rock1': rock_1,
+  'rock2': rock_2
+};
+
+game.assets.loaded = {};
 
 game.width = window.innerWidth;
 game.height = window.innerHeight;
+
+game.assets.load = function () {
+  let assetPromises = [];
+
+  _.each(game.assets.available, function (asset, assetName) {
+    const assetImage = new Image();
+    const assetDeferred = new $.Deferred();
+
+    assetImage.onload = function () {
+      assetImage.width /= 2;
+      assetImage.height /= 2;
+
+      game.assets.loaded[assetName] = assetImage;
+      assetDeferred.resolve(game.assets.loaded);
+    };
+    assetImage.src = asset;
+
+    assetPromises.push(assetDeferred.promise());
+  });
+  return $.when.apply($, assetPromises);
+};
 
 game.canvas = $('<canvas></canvas>')
   .attr('width', game.width * window.devicePixelRatio)
@@ -93,15 +149,10 @@ game.keyHandler = function () {
 
 game.init = function () {
   game.keyHandler();
-  skier.assets.load().then(function () {
-    obstacle.placeInitial(game.width, game.height, skier.assets.loaded);
+  game.assets.load().then(function () {
+    obstacle.placeInitial(game.width, game.height, game.assets.loaded);
     window.requestAnimationFrame(game.loop);
   });
 };
 
-/**
-* Using try catch since the browser doesn't recognize `module`
-*/
-try {
-  module.exports = exports = game;
-} catch (e) { }
+export default game;

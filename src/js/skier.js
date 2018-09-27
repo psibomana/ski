@@ -5,50 +5,7 @@ skier.mapX = 0;
 skier.mapY = 0;
 skier.speed = 8;
 
-skier.assets = skier.assets || {};
-
-skier.assets.available = {
-  'skierCrash': './src/img/skier_crash.png',
-  'skierLeft': './src/img/skier_left.png',
-  'skierLeftDown': './src/img/skier_left_down.png',
-  'skierDown': './src/img/skier_down.png',
-  'skierRightDown': './src/img/skier_right_down.png',
-  'skierRight': './src/img/skier_right.png',
-  'skierJump1': './src/img/skier_jump_1.png',
-  'skierJump2': './src/img/skier_jump_2.png',
-  'skierJump3': './src/img/skier_jump_3.png',
-  'skierJump4': './src/img/skier_jump_4.png',
-  'skierJump5': './src/img/skier_jump_5.png',
-  'tree': './src/img/tree_1.png',
-  'treeCluster': './src/img/tree_cluster.png',
-  'rock1': './src/img/rock_1.png',
-  'rock2': './src/img/rock_2.png'
-};
-
-skier.assets.loaded = {};
-
 skier.jumpingDirections = [6, 7, 8, 9, 10];
-
-skier.assets.load = function () {
-  let assetPromises = [];
-
-  _.each(skier.assets.available, function (asset, assetName) {
-    const assetImage = new Image();
-    const assetDeferred = new $.Deferred();
-
-    assetImage.onload = function () {
-      assetImage.width /= 2;
-      assetImage.height /= 2;
-
-      skier.assets.loaded[assetName] = assetImage;
-      assetDeferred.resolve(skier.assets.loaded);
-    };
-    assetImage.src = asset;
-
-    assetPromises.push(assetDeferred.promise());
-  });
-  return $.when.apply($, assetPromises);
-};
 
 
 skier.getAsset = function () {
@@ -131,7 +88,7 @@ skier.move = function (obstacle, game) {
 skier.draw = function (game) {
 
   const skierAssetName = skier.getAsset();
-  const skierImage = skier.assets.loaded[skierAssetName];
+  const skierImage = game.assets.loaded[skierAssetName];
   const x = (game.width - skierImage.width) / 2;
   const y = (game.height - skierImage.height) / 2;
 
@@ -149,7 +106,7 @@ skier.intersectRect = function (r1, r2) {
 
 skier.hasHitObstacle = function (game, obstacles) {
   const skierAssetName = skier.getAsset();
-  const skierImage = skier.assets.loaded[skierAssetName];
+  const skierImage = game.assets.loaded[skierAssetName];
   const skierRect = {
     left: skier.mapX + game.width / 2,
     right: skier.mapX + skierImage.width + game.width / 2,
@@ -158,7 +115,7 @@ skier.hasHitObstacle = function (game, obstacles) {
   };
 
   const collision = _.find(obstacles, function (obstacle) {
-    const obstacleImage = skier.assets.loaded[obstacle.type];
+    const obstacleImage = game.assets.loaded[obstacle.type];
     const obstacleRect = {
       left: obstacle.x,
       right: obstacle.x + obstacleImage.width,
@@ -175,6 +132,4 @@ skier.hasHitObstacle = function (game, obstacles) {
   }
 };
 
-try {
-  module.exports = exports = skier;
-} catch (e) { }
+export default skier;

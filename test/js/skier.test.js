@@ -8,7 +8,8 @@ describe('skier', function () {
   it('should return a different position', function () {
     const initialMapX = skier.mapX;
     const initialMapY = skier.mapY;
-    let finalMapX = finalMapY = 0;
+    let finalMapX = 0;
+    let finalMapY = 0;
 
     skier.direction = Math.floor(Math.random() * 3) + 1;
     skier.move(obstacle, game);
@@ -27,13 +28,13 @@ describe('skier', function () {
   });
 
   it('should return an non empty loaded obstacles object', function() {
-    skier.assets.load().then(function () {
-      obstacle.placeInitial(game.width, game.height, skier.assets.loaded);
+    game.assets.load().then(function () {
+      obstacle.placeInitial(game.width, game.height, game.assets.loaded);
     }).catch(function(err) {
       console.log(err);
     });
 
-    expect(skier.assets.loaded).to.be.an('object');
+    expect(game.assets.loaded).to.be.an('object');
 
   });
 
@@ -53,6 +54,5 @@ describe('skier', function () {
 
     expect(skier.intersectRect(posObstacle, posSkier)).to.be.true;
   });
-
 
 });

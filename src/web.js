@@ -1,6 +1,22 @@
+import express from 'express';
+import path from 'path';
+import webpack from 'webpack';
+import config from '../webpack.config'
+
 const port = process.env.PORT || 5000;
-const httpServer = require('http-server');
-let server = httpServer.createServer({});
-server.listen(port, '0.0.0.0', function () {
+const app = express();
+
+const compiler = webpack(config);
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+app.listen(port, '0.0.0.0', function () {
   console.log(`Listening on port ${port}. Hit CTRL-C to stop the server.`);
 });

@@ -10,7 +10,7 @@ describe('ski', function() {
 
     $(document).ready(ski.onReady);
 
-    expect(ski.skier.assets.loaded).to.be.an('object');
+    expect(ski.game.assets.loaded).to.be.an('object');
 
   });
 });

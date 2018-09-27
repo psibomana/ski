@@ -1,20 +1,28 @@
-const chai = require('chai');
-const dirtyChai = require('dirty-chai');
-const MockBrowser = require('mock-browser').mocks.MockBrowser;
+import chai from'chai';
+import dirtyChai from 'dirty-chai';
+import $ from 'jquery';
+import _ from 'lodash';
+import mock_browser from 'mock-browser';
 
-let ski = require('../src/js/ski');
-let skier = require('../src/js/skier');
-let obstacle = require('../src/js/obstacles');
-let game = require('../src/js/game');
+const MockBrowser = mock_browser.mocks.MockBrowser;
+
+import ski from '../src/js/index';
+import skier from '../src/js/skier';
+import obstacle from '../src/js/obstacles';
+import game from '../src/js/game';
 
 chai.use(dirtyChai);
 
 const { expect } = chai;
 
+global.$ = global.jQuery = $;
+global._ = global.lodash = _;
 
 module.exports = {
   expect,
   MockBrowser,
+  $,
+  _,
   skier,
   obstacle,
   game,

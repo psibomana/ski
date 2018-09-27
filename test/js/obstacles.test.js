@@ -8,7 +8,7 @@ describe('obstacles', function () {
 
   it('should return more than one obstacle after placing randoms', function () {
     //Available assets will be used instead of loaded ones.
-    obstacle.placeInitial(game.width, game.height, skier.assets.available);
+    obstacle.placeInitial(game.width, game.height, game.assets.available);
     expect(obstacle.obstacles.length).greaterThan(1);
   });
 });
