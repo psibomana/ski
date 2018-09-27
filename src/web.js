@@ -3,6 +3,8 @@ import path from 'path';
 import webpack from 'webpack';
 import config from '../webpack.config'
 
+/* eslint-disable no-console */
+
 const port = process.env.PORT || 5000;
 const app = express();
 

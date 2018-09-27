@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 let skier =  {};
 
 skier.direction = 5;
