@@ -5,7 +5,7 @@ import $ from 'jquery';
 
 let ski = ski || {};
 
-ski.onReady = function() {
+ski.onReady = () => {
   $('body').append(game.canvas);
   game.init(skier, obstacle);
 }

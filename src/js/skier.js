@@ -6,11 +6,14 @@ skier.direction = 5;
 skier.mapX = 0;
 skier.mapY = 0;
 skier.speed = 8;
+skier.maxLife = 5;
+skier.speedIncrement = 1.001;
+skier.isMoving = false;
 
 skier.jumpingDirections = [6, 7, 8, 9, 10];
 
 
-skier.getAsset = function () {
+skier.getAsset = () => {
   let skierAssetName;
   switch (skier.direction) {
     case 0:
@@ -51,7 +54,7 @@ skier.getAsset = function () {
   return skierAssetName;
 };
 
-skier.move = function (obstacle, game) {
+skier.move = (obstacle, game) => {
   switch (skier.direction) {
     case 2:
       skier.mapX -= Math.round(skier.speed / 1.4142);
@@ -60,6 +63,7 @@ skier.move = function (obstacle, game) {
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       break;
     case 3:
+      skier.speed *= skier.speedIncrement;
       skier.mapY += skier.speed;
 
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
@@ -87,7 +91,7 @@ skier.move = function (obstacle, game) {
 };
 
 
-skier.draw = function (game) {
+skier.draw = (game) => {
 
   const skierAssetName = skier.getAsset();
   const skierImage = game.assets.loaded[skierAssetName];
@@ -98,7 +102,7 @@ skier.draw = function (game) {
 };
 
 
-skier.intersectRect = function (r1, r2) {
+skier.intersectRect = (r1, r2) => {
   return !(r2.left > r1.right ||
     r2.right < r1.left ||
     r2.top > r1.bottom ||
@@ -106,7 +110,7 @@ skier.intersectRect = function (r1, r2) {
 };
 
 
-skier.hasHitObstacle = function (game, obstacles) {
+skier.hasHitObstacle = (game, obstacles) => {
   const skierAssetName = skier.getAsset();
   const skierImage = game.assets.loaded[skierAssetName];
   const skierRect = {
@@ -116,7 +120,7 @@ skier.hasHitObstacle = function (game, obstacles) {
     bottom: skier.mapY + skierImage.height + game.height / 2
   };
 
-  const collision = _.find(obstacles, function (obstacle) {
+  const collision = _.find(obstacles, (obstacle) => {
     const obstacleImage = game.assets.loaded[obstacle.type];
     const obstacleRect = {
       left: obstacle.x,

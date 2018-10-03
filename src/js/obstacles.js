@@ -11,10 +11,10 @@ obstacle.types = [
 
 obstacle.obstacles = [];
 
-obstacle.draw = function (game, skier) {
+obstacle.draw = (game, skier) => {
   let newObstacles = [];
 
-  _.each(obstacle.obstacles, function (obstacle) {
+  _.each(obstacle.obstacles, (obstacle) => {
     const obstacleImage = game.assets.loaded[obstacle.type];
     const x = obstacle.x - skier.mapX - obstacleImage.width / 2;
     const y = obstacle.y - skier.mapY - obstacleImage.height / 2;
@@ -29,7 +29,7 @@ obstacle.draw = function (game, skier) {
   obstacle.obstacles = newObstacles;
 };
 
-obstacle.placeInitial = function (width, height, loadedAssets) {
+obstacle.placeInitial = (width, height, loadedAssets) => {
   const numberObstacles = Math.ceil(_.random(5, 7) * (width / 800) * (height / 500));
 
   const minX = -50;
@@ -41,13 +41,13 @@ obstacle.placeInitial = function (width, height, loadedAssets) {
     obstacle.placeRandom(minX, maxX, minY, maxY);
   }
 
-  obstacle.obstacles = _.sortBy(obstacle.obstacles, function (obstacle) {
+  obstacle.obstacles = _.sortBy(obstacle.obstacles, (obstacle) => {
     const obstacleImage = loadedAssets[obstacle.type];
     return obstacle.y + obstacleImage.height;
   });
 };
 
-obstacle.placeNew = function (direction, mapX, mapY, width, height) {
+obstacle.placeNew = (direction, mapX, mapY, width, height) => {
   const shouldPlaceObstacle = _.random(1, 8);
   if (shouldPlaceObstacle !== 8) {
     return;
@@ -83,7 +83,7 @@ obstacle.placeNew = function (direction, mapX, mapY, width, height) {
 };
 
 
-obstacle.placeRandom = function (minX, maxX, minY, maxY) {
+obstacle.placeRandom = (minX, maxX, minY, maxY) => {
   const obstacleIndex = _.random(0, obstacle.types.length - 1);
 
   const position = obstacle.calculateOpenPosition(minX, maxX, minY, maxY);
@@ -95,11 +95,11 @@ obstacle.placeRandom = function (minX, maxX, minY, maxY) {
   })
 };
 
-obstacle.calculateOpenPosition = function (minX, maxX, minY, maxY) {
+obstacle.calculateOpenPosition = (minX, maxX, minY, maxY) => {
   const x = _.random(minX, maxX);
   const y = _.random(minY, maxY);
 
-  const foundCollision = _.find(obstacle.obstacles, function (obstacle) {
+  const foundCollision = _.find(obstacle.obstacles, (obstacle) => {
     return x > (obstacle.x - 50) && x < (obstacle.x + 50) && y > (obstacle.y - 50) && y < (obstacle.y + 50);
   });
 

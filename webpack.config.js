@@ -17,7 +17,7 @@ export default {
       {test: /\.json$/, loader: "json-loader" },
       {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
       {test: /\.css$/, loaders: ['style','css']},
-      {test:  /\.(gif|png|jpe?g|svg)$/i, loaders: ['file-loader']}
+      {test:  /\.(gif|png|node|jpe?g|svg)$/i, loaders: ['file-loader']}
     ]
   }
 }

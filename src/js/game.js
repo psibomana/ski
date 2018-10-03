@@ -46,14 +46,14 @@ game.assets.loaded = {};
 game.width = window.innerWidth;
 game.height = window.innerHeight;
 
-game.assets.load = function () {
+game.assets.load = () => {
   let assetPromises = [];
 
-  _.each(game.assets.available, function (asset, assetName) {
+  _.each(game.assets.available, (asset, assetName) => {
     const assetImage = new Image();
     const assetDeferred = new $.Deferred();
 
-    assetImage.onload = function () {
+    assetImage.onload = () => {
       assetImage.width /= 2;
       assetImage.height /= 2;
 
@@ -77,11 +77,11 @@ game.canvas = $('<canvas></canvas>')
 
 game.ctx = game.canvas[0].getContext('2d');
 
-game.canvas.clear = function () {
+game.canvas.clear = () => {
   game.ctx.clearRect(0, 0, game.width, game.height);
 };
 
-game.loop = function () {
+game.loop = () => {
 
   game.ctx.save();
 
@@ -102,9 +102,9 @@ game.loop = function () {
   window.requestAnimationFrame(game.loop);
 };
 
-game.keyHandler = function () {
+game.keyHandler = () => {
 
-  $(window).keydown(function (event) {
+  $(window).keydown((event) => {
     switch (event.which) {
       case 37: // left
         if (skier.direction === 1) {
@@ -147,9 +147,9 @@ game.keyHandler = function () {
   });
 };
 
-game.init = function () {
+game.init = () => {
   game.keyHandler();
-  game.assets.load().then(function () {
+  game.assets.load().then(() => {
     obstacle.placeInitial(game.width, game.height, game.assets.loaded);
     window.requestAnimationFrame(game.loop);
   });

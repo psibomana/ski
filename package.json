@@ -22,11 +22,12 @@
   "scripts": {
     "start": "babel-node ./src/web.js",
     "dev": "nodemon ./src/web.js",
-    "test": "mocha -r ./test/mochacfg.js -r babel-register -r jsdom-global/register ./test/setup.js ./test/**/*.test.js",
-    "posttest": "yarn lint",
-    "test-spec": "nyc --reporter=none npm run test",
+    "dev:test": "mocha -r ./test/mochacfg.js -r babel-register -r jsdom-global/register ./test/setup.js ./test/**/*.test.js",
+    "test-spec": "nyc --reporter=none yarn dev:test",
     "coverage": "nyc report",
-    "lint": "eslint webpack.config.js src  --color"
+    "test": "yarn test-spec && yarn coverage",
+    "posttest": "yarn lint",
+    "lint": "eslint webpack.config.js src --color"
   },
   "author": "dan.wash@ceros.com",
   "license": "GPL-3.0",
