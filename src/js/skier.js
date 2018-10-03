@@ -5,8 +5,9 @@ let skier =  {};
 skier.direction = 5;
 skier.mapX = 0;
 skier.mapY = 0;
-skier.speed = 8;
-skier.maxLife = 5;
+skier.initialSpeed = 8;
+skier.speed = skier.initialSpeed;
+skier.lives = 5;
 skier.speedIncrement = 1.001;
 skier.isMoving = false;
 
@@ -59,19 +60,19 @@ skier.move = (obstacle, game) => {
     case 2:
       skier.mapX -= Math.round(skier.speed / 1.4142);
       skier.mapY += Math.round(skier.speed / 1.4142);
-
+      skier.isMoving = true;
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       break;
     case 3:
       skier.speed *= skier.speedIncrement;
       skier.mapY += skier.speed;
-
+      skier.isMoving = true;
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       break;
     case 4:
       skier.mapX += skier.speed / 1.4142;
       skier.mapY += skier.speed / 1.4142;
-
+      skier.isMoving = true;
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       break;
     case 6:
@@ -80,6 +81,7 @@ skier.move = (obstacle, game) => {
     case 9:
     case 10:
       skier.mapY += skier.speed;
+      skier.isMoving = true;
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       if (skier.direction === 10) {
         skier.direction = 3;
@@ -99,8 +101,18 @@ skier.draw = (game) => {
   const y = (game.height - skierImage.height) / 2;
 
   game.ctx.drawImage(skierImage, x, y, skierImage.width, skierImage.height);
+  
+  skier.drawInfo(game);
 };
 
+skier.drawInfo = (game) => {
+  game.ctx.font = "18px Arial";
+  let message = 'Lives: ' + skier.lives + "\n" ;
+  message += "Speed: " + Math.round(skier.speed) + "\n";
+  let elapsed=parseInt((new Date() - game.startTime)/1000);
+  message += "Timer: " + elapsed + " secs\n";
+  game.ctx.fillText(message,10,50);
+}
 
 skier.intersectRect = (r1, r2) => {
   return !(r2.left > r1.right ||
@@ -135,7 +147,20 @@ skier.hasHitObstacle = (game, obstacles) => {
 
   if (collision) {
     skier.direction = 0;
+    skier.updateLives();
   }
 };
+
+skier.updateLives = () => {
+  if(skier.isMoving) {
+    skier.lives -= 1;
+    skier.speed = skier.initialSpeed;
+     if(skier.lives == 0) {
+        alert("GAME OVER");
+        document.location.reload();
+     }
+  }
+  skier.isMoving = false;
+}
 
 export default skier;

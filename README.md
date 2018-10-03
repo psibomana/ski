@@ -49,12 +49,10 @@ Issues are always very welcome. Please be sure to follow the [issue template](ht
 
 * Implement jumps
 * Get faster as the game progresses
-* Add a score (Coming Soon)
-* Get faster as the game progresses (Coming Soon)
+* Add a timer
+* Reset the game once the game is over
 * Feed the hungry Rhino (Coming Soon)
-* Reset the game once the game is over (Coming Soon)
 * Pause and resume the game (Coming Soon)
-* Get faster as the game progresses (Coming Soon)
 
 
 ## Demo

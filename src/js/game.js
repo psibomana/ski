@@ -45,6 +45,7 @@ game.assets.loaded = {};
 
 game.width = window.innerWidth;
 game.height = window.innerHeight;
+game.startTime = new Date(); 
 
 game.assets.load = () => {
   let assetPromises = [];
@@ -101,6 +102,10 @@ game.loop = () => {
 
   window.requestAnimationFrame(game.loop);
 };
+
+setTimeout(() => {
+  game.time += 1;
+}, 1000);
 
 game.keyHandler = () => {
 
