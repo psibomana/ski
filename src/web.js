@@ -1,3 +1,6 @@
+/**
+ * Instantiate the express web server used to server the game 
+ */
 import express from 'express';
 import path from 'path';
 import webpack from 'webpack';

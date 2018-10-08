@@ -1,3 +1,8 @@
+/**
+ * Game component. This file contains all the methods and values 
+ * for the game on the canvas.
+ */
+
 import skier from './skier';
 import obstacle from './obstacles';
 import $ from 'jquery';
@@ -23,6 +28,7 @@ let game =  {};
 
 game.assets = game.assets || {};
 
+// List of game assets.
 game.assets.available = {
   'skierCrash': skier_crash,
   'skierLeft': skier_left,
@@ -43,10 +49,17 @@ game.assets.available = {
 
 game.assets.loaded = {};
 
+// Browser width
 game.width = window.innerWidth;
+// Browser height
 game.height = window.innerHeight;
+// Game starting time
 game.startTime = new Date(); 
 
+
+/**
+ * Function responsible to load different assets on the browser
+ */
 game.assets.load = () => {
   let assetPromises = [];
 
@@ -68,6 +81,8 @@ game.assets.load = () => {
   return $.when.apply($, assetPromises);
 };
 
+
+// Canvas, where all the ressources will be displayed.
 game.canvas = $('<canvas></canvas>')
   .attr('width', game.width * window.devicePixelRatio)
   .attr('height', game.height * window.devicePixelRatio)
@@ -76,12 +91,19 @@ game.canvas = $('<canvas></canvas>')
     height: game.height + 'px'
   });
 
+// Canvas Contex
 game.ctx = game.canvas[0].getContext('2d');
 
+// Responsible to clear the canvas for a new redraw/repaint
 game.canvas.clear = () => {
   game.ctx.clearRect(0, 0, game.width, game.height);
 };
 
+
+/**
+ * Game loop
+ * This function  keeps the canvas updating with new values.
+ */
 game.loop = () => {
 
   game.ctx.save();
@@ -103,10 +125,17 @@ game.loop = () => {
   window.requestAnimationFrame(game.loop);
 };
 
+/**
+ * Game timer
+ */
 setTimeout(() => {
   game.time += 1;
 }, 1000);
 
+/**
+ *  Function responsible to interpret the user input.
+ *  User input can be and key on the keyboard.
+ */
 game.keyHandler = () => {
 
   $(window).keydown((event) => {
@@ -152,12 +181,18 @@ game.keyHandler = () => {
   });
 };
 
+
+/**
+ * Game initialization function.
+ */
 game.init = () => {
-  game.keyHandler();
+  game.keyHandler(); // Initiat the key handler
+  // Load game assets and place initial game images (assets)
   game.assets.load().then(() => {
     obstacle.placeInitial(game.width, game.height, game.assets.loaded);
-    window.requestAnimationFrame(game.loop);
+    window.requestAnimationFrame(game.loop); // Update animation on screen
   });
 };
 
+// Export the game module
 export default game;

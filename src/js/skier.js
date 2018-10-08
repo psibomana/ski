@@ -1,19 +1,35 @@
+/**
+ * Game skier module.
+ */
+
 import _ from 'lodash';
 
 let skier =  {};
 
-skier.direction = 5;
+// Skier direction
+skier.direction = 5; 
+// Skier X position
 skier.mapX = 0;
+// Skier Y position
 skier.mapY = 0;
+// Skier initial speep
 skier.initialSpeed = 8;
+// Skier current speed
 skier.speed = skier.initialSpeed;
+// Skier available lives
 skier.lives = 5;
+// Skier speed incrementation coeficient
 skier.speedIncrement = 1.001;
+// Skier value to determin if moving or not
 skier.isMoving = false;
 
+// Skier directions while jumping
 skier.jumpingDirections = [6, 7, 8, 9, 10];
 
-
+/**
+ * Get asset value based on the dirrection
+ * @returns String
+ */
 skier.getAsset = () => {
   let skierAssetName;
   switch (skier.direction) {
@@ -55,6 +71,11 @@ skier.getAsset = () => {
   return skierAssetName;
 };
 
+/**
+ * Moves the skier
+ * @param {object} obstacle Obstacle module
+ * @param {object} game Game module
+ */
 skier.move = (obstacle, game) => {
   switch (skier.direction) {
     case 2:
@@ -92,7 +113,10 @@ skier.move = (obstacle, game) => {
   }
 };
 
-
+/**
+ * Draws the skier on the game, 
+ * @param {object} game Game module
+ */
 skier.draw = (game) => {
 
   const skierAssetName = skier.getAsset();
@@ -105,6 +129,11 @@ skier.draw = (game) => {
   skier.drawInfo(game);
 };
 
+/**
+ * Draws the game informations
+ * (Available lived, current speed, ...)
+ * @param {object} game 
+ */
 skier.drawInfo = (game) => {
   game.ctx.font = "18px Arial";
   let message = 'Lives: ' + skier.lives + "\n" ;
@@ -114,6 +143,11 @@ skier.drawInfo = (game) => {
   game.ctx.fillText(message,10,50);
 }
 
+/**
+ * Determins if position on r1 and r2 are equal
+ * @param {object} r1 
+ * @param {object} r2 
+ */
 skier.intersectRect = (r1, r2) => {
   return !(r2.left > r1.right ||
     r2.right < r1.left ||
@@ -121,7 +155,11 @@ skier.intersectRect = (r1, r2) => {
     r2.bottom < r1.top);
 };
 
-
+/**
+ * Determins if the skier has hit an obstacle 
+ * @param {object} game Game module
+ * @param {object} obstacles Obstacles module
+ */
 skier.hasHitObstacle = (game, obstacles) => {
   const skierAssetName = skier.getAsset();
   const skierImage = game.assets.loaded[skierAssetName];
@@ -146,21 +184,25 @@ skier.hasHitObstacle = (game, obstacles) => {
   });
 
   if (collision) {
-    skier.direction = 0;
-    skier.updateLives();
+    skier.direction = 0; // Set the default skier dirrection
+    skier.updateLives(); // Update skier available lives
   }
 };
 
+/**
+ * Update lives in case there is a collistion
+ */
 skier.updateLives = () => {
   if(skier.isMoving) {
     skier.lives -= 1;
     skier.speed = skier.initialSpeed;
      if(skier.lives == 0) {
-        alert("GAME OVER");
+        alert("GAME OVER"); // Set game over if no more lives available
         document.location.reload();
      }
   }
   skier.isMoving = false;
 }
 
+// Export the skier module.
 export default skier;

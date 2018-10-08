@@ -10,7 +10,9 @@ ski.onReady = () => {
   game.init(skier, obstacle);
 }
 
+// Initialize the game on browser ready using JQuery
 $(document).ready(ski.onReady);
 
+// Export ski game module
 export default ski;
 
