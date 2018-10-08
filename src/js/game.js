@@ -60,10 +60,9 @@ game.elapsed = 0;
 game.previousElapsed = 0;
 
 // Game statuses
-game.RESUME = "RESUME";
+game.RESUME = "RESUMED";
 game.PAUSED = "PAUSED";
 game.status = game.PAUSED;
-
 
 /**
  * Function responsible to load different assets on the browser
@@ -233,6 +232,7 @@ game.drawInfo = (skier) => {
   message += "Speed: " + Math.round(skier.speed) + "\n";
   game.setGameElpasedTime();
   message += "Timer: " + parseInt(game.elapsed/1000) + " secs\n";
+  message += "Status: " + game.status + " \n";
   game.ctx.fillText(message,10,50);
 }
 

@@ -101,7 +101,7 @@ skier.move = (obstacle, game) => {
     case 8:
     case 9:
     case 10:
-      skier.mapY += skier.speed;
+      skier.mapY += 0.1;
       skier.isMoving = true;
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       if (skier.direction === 10) {
