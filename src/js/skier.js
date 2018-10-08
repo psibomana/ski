@@ -125,23 +125,8 @@ skier.draw = (game) => {
   const y = (game.height - skierImage.height) / 2;
 
   game.ctx.drawImage(skierImage, x, y, skierImage.width, skierImage.height);
-  
-  skier.drawInfo(game);
+  game.drawInfo(skier);
 };
-
-/**
- * Draws the game informations
- * (Available lived, current speed, ...)
- * @param {object} game 
- */
-skier.drawInfo = (game) => {
-  game.ctx.font = "18px Arial";
-  let message = 'Lives: ' + skier.lives + "\n" ;
-  message += "Speed: " + Math.round(skier.speed) + "\n";
-  let elapsed=parseInt((new Date() - game.startTime)/1000);
-  message += "Timer: " + elapsed + " secs\n";
-  game.ctx.fillText(message,10,50);
-}
 
 /**
  * Determins if position on r1 and r2 are equal

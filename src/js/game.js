@@ -53,8 +53,16 @@ game.assets.loaded = {};
 game.width = window.innerWidth;
 // Browser height
 game.height = window.innerHeight;
-// Game starting time
-game.startTime = new Date(); 
+// Game (re)starting time
+game.previousTime = new Date();
+// Game time elapsed
+game.elapsed = 0;
+game.previousElapsed = 0;
+
+// Game statuses
+game.RESUME = "RESUME";
+game.PAUSED = "PAUSED";
+game.status = game.PAUSED;
 
 
 /**
@@ -81,7 +89,6 @@ game.assets.load = () => {
   return $.when.apply($, assetPromises);
 };
 
-
 // Canvas, where all the ressources will be displayed.
 game.canvas = $('<canvas></canvas>')
   .attr('width', game.width * window.devicePixelRatio)
@@ -98,7 +105,6 @@ game.ctx = game.canvas[0].getContext('2d');
 game.canvas.clear = () => {
   game.ctx.clearRect(0, 0, game.width, game.height);
 };
-
 
 /**
  * Game loop
@@ -126,61 +132,120 @@ game.loop = () => {
 };
 
 /**
- * Game timer
- */
-setTimeout(() => {
-  game.time += 1;
-}, 1000);
-
-/**
  *  Function responsible to interpret the user input.
  *  User input can be and key on the keyboard.
  */
 game.keyHandler = () => {
-
   $(window).keydown((event) => {
     switch (event.which) {
+      case 32: // Game Start/Pause/Resume
+        game.handleSpaceEvent();
+        break;
       case 37: // left
-        if (skier.direction === 1) {
-          skier.mapX -= skier.speed;
-          obstacle.placeNew(skier.direction);
-        }
-        else if (skier.direction !== 0) {
-          skier.direction--;
-        } else {
-          skier.direction = 1;
-        }
-        event.preventDefault();
+        game.handleLeftEvent();
         break;
       case 39: // right
-        if (skier.direction === 5) {
-          skier.mapX += skier.speed;
-          obstacle.placeNew(skier.direction);
-        }
-        else {
-          skier.direction++;
-        }
-        event.preventDefault();
+        game.handleRightEvent();
         break;
       case 38: // up
-        if (skier.direction === 1 || skier.direction === 5) {
-          skier.mapY -= skier.speed;
-          obstacle.placeNew(6);
-        } else {
-          skier.direction = 6;
-          obstacle.placeNew(6);
-        }
-
-        event.preventDefault();
+        game.handleUpEvent();
         break;
       case 40: // down
-        skier.direction = 3;
-        event.preventDefault();
+        game.handleDownEvent();
         break;
     }
   });
 };
 
+// Handles down key events
+game.handleDownEvent = () => {
+  if(game.status === game.RESUME){
+    skier.direction = 3;
+    event.preventDefault();
+  }
+}
+
+// Handles Upper key events
+game.handleUpEvent = () => {
+  if(game.status === game.RESUME){
+    if (skier.direction === 1 || skier.direction === 5) {
+      skier.mapY -= skier.speed;
+      obstacle.placeNew(6);
+    } else {
+      skier.direction = 6;
+      obstacle.placeNew(6);
+    }
+    event.preventDefault();
+  }
+}
+
+// Handles left key events
+game.handleLeftEvent = () => {
+  if(game.status === game.RESUME){
+    if (skier.direction === 1) {
+      skier.mapX -= skier.speed;
+      obstacle.placeNew(skier.direction);
+    }
+    else if (skier.direction !== 0) {
+      skier.direction--;
+    } else {
+      skier.direction = 1;
+    }
+    event.preventDefault(); 
+  }
+}
+
+// Handles right key events
+game.handleRightEvent = () => {
+  if(game.status === game.RESUME){
+    if (skier.direction === 5) {
+      skier.mapX += skier.speed;
+      obstacle.placeNew(skier.direction);
+    }
+    else {
+      skier.direction++;
+    }
+    event.preventDefault();
+  }
+}
+
+// Handles Space key events
+game.handleSpaceEvent = () => {
+  if(skier.direction === 5){
+    skier.direction = 3;
+    game.status = game.RESUME;
+    game.elapsed = game.previousElapsed;
+    game.previousTime = new Date();
+  } else {
+    skier.direction = 5;
+    game.previousElapsed = game.elapsed;
+    game.status = game.PAUSED;
+  }
+}
+
+/**
+ * Draws the game informations
+ * (Available lived, current speed, ...)
+ */
+game.drawInfo = (skier) => {
+  game.ctx.font = "18px Arial";
+  let message = 'Lives: ' + skier.lives + "\n" ;
+  message += "Speed: " + Math.round(skier.speed) + "\n";
+  game.setGameElpasedTime();
+  message += "Timer: " + parseInt(game.elapsed/1000) + " secs\n";
+  game.ctx.fillText(message,10,50);
+}
+
+/**
+ * Return elapsed time
+ */
+game.setGameElpasedTime = () => {
+  if(game.status === game.RESUME){
+    let elapsed = new Date() - game.previousTime;
+    game.previousTime = new Date();
+    game.elapsed += elapsed;
+  }
+}
 
 /**
  * Game initialization function.
