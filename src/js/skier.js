@@ -26,6 +26,9 @@ skier.isMoving = false;
 // Skier directions while jumping
 skier.jumpingDirections = [6, 7, 8, 9, 10];
 
+// Jumping Speed Coeficient
+skier.jumpingSpeedCoef = 3;
+
 /**
  * Get asset value based on the dirrection
  * @returns String
@@ -101,7 +104,7 @@ skier.move = (obstacle, game) => {
     case 8:
     case 9:
     case 10:
-      skier.mapY += 0.1;
+      skier.mapY += (skier.speed * skier.jumpingSpeedCoef);
       skier.isMoving = true;
       obstacle.placeNew(skier.direction, skier.mapX, skier.mapY, game.width, game.height);
       if (skier.direction === 10) {
@@ -109,9 +112,20 @@ skier.move = (obstacle, game) => {
       } else {
         skier.direction++;
       }
+      skier.sleep(100); 
       break;
   }
 };
+
+// Wait utility method.
+skier.sleep = (milliseconds) => {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
 
 /**
  * Draws the skier on the game, 
@@ -181,7 +195,7 @@ skier.updateLives = () => {
   if(skier.isMoving) {
     skier.lives -= 1;
     skier.speed = skier.initialSpeed;
-     if(skier.lives == 0) {
+     if(skier.lives < 0) {
         alert("GAME OVER"); // Set game over if no more lives available
         document.location.reload();
      }

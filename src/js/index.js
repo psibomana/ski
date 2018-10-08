@@ -11,7 +11,7 @@ let rules = `The object of the game is to ski down
               an endless slope and avoid the obstacles.
               Use Space Key to Start, Pause or Resume the game,
               Upper key on the keyboard to jump and 
-              Left and Right respectively to turn Left and Right.`
+              Left and Right respectively to turn Left and Right.`;
 
 ski.onReady = () => {
   $('body').append("<h1>Game Rules</h1>");

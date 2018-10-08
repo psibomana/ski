@@ -52,7 +52,6 @@ Issues are always very welcome. Please be sure to follow the [issue template](ht
 * Add a timer
 * Reset the game once the game is over 
 * Pause and resume the game
-* Feed the hungry Rhino (Coming Soon)
 
 ## Demo
 The demo application can be found here: https://sasipa-ski.herokuapp.com/
